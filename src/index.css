@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Outfit', sans-serif;
+}
+@theme {
+  /* Brand Colors */
+  --color-brand: #FF3B30;
+  --color-brand-hover: #dc2626; /* red-600 */
+  
+  /* Backgrounds */
+  --color-bg-base: #0b0b0b;
+  --color-bg-card: #111111;
+  
+  /* Borders */
+  --color-border-subtle: #2A2A2A;
+  
+  /* Text */
+  --color-text-primary: #ffffff;
+  --color-text-muted: #C9C9C9;
+}
