@@ -1,6 +1,6 @@
 # Earl Ang | Full-Stack Developer Portfolio
 
-A premium, modern developer portfolio built with Vue 3, Vite, and Tailwind CSS. It features a custom 3D hero section, cinematic dark mode with glassmorphism effects, dynamic mouse spotlight interactions, and a fully functional contact form.
+A developer portfolio built with Vue 3, Vite, and Tailwind CSS. It features a custom 3D hero section, cinematic dark mode with glassmorphism effects, dynamic mouse spotlight interactions, and a fully functional contact form.
 
 ## 🚀 Tech Stack & Tools
 
