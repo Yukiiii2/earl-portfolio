@@ -1,76 +1,36 @@
 <script setup>
-import { onMounted } from 'vue'
 import { DATA } from './portfolio/data.js'
 
-onMounted(() => {
-  const cards = document.querySelectorAll('.spotlight')
-  cards.forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
-      card.style.setProperty('--x', `${x}px`)
-      card.style.setProperty('--y', `${y}px`)
-    })
-  })
-})
+const groups = [
+  { label: 'Primary Frontend', index: '01', items: DATA.skills.frontend },
+  { label: 'Backend & Database', index: '02', items: DATA.skills.backend },
+  { label: 'Tools & Cloud', index: '03', items: DATA.skills.tools },
+  { label: 'Currently Learning', index: '04', items: DATA.skills.currentlyLearning },
+]
 </script>
 
 <template>
-  <section class="max-w-5xl mx-auto px-6 py-12">
-    <h3 data-aos="fade-up" class="text-3xl font-black text-white mb-8 border-b border-[#2A2A2A] pb-4">Tech Stack</h3>
-    
-    <div class="grid md:grid-cols-2 gap-8">
-      <!-- Frontend -->
-      <div data-aos="fade-up" data-aos-delay="100" class="spotlight bg-white/[0.02] border border-white/5 p-6 rounded-2xl hover:border-[#FF3B30]/30 transition-all duration-300">
-        <h4 class="text-white font-bold mb-4 relative z-20">Frontend</h4>
-        <div class="flex flex-wrap gap-2 relative z-20">
-          <span v-for="skill in DATA.skills.frontend" :key="skill" class="bg-[#FF3B30]/10 border border-[#FF3B30]/30 text-white text-sm font-bold px-4 py-1.5 rounded-full">{{ skill }}</span>
-        </div>
+  <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <header data-aos="fade-up" class="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-5">
+      <div>
+        <p class="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[#ff766d]">Toolkit / 02</p>
+        <h2 class="text-3xl font-medium tracking-[-0.045em] text-[#f1eeeb] sm:text-4xl">Tech stack<span class="text-[#ff574e]">.</span></h2>
       </div>
-      
-      <!-- Backend -->
-      <div data-aos="fade-up" data-aos-delay="200" class="spotlight bg-white/[0.02] border border-white/5 p-6 rounded-2xl hover:border-[#FF3B30]/30 transition-all duration-300">
-        <h4 class="text-white font-bold mb-4 relative z-20">Backend & Database</h4>
-        <div class="flex flex-wrap gap-2 relative z-20">
-          <span v-for="skill in DATA.skills.backend" :key="skill" class="bg-[#FF3B30]/10 border border-[#FF3B30]/30 text-white text-sm font-bold px-4 py-1.5 rounded-full">{{ skill }}</span>
-        </div>
-      </div>
+      <p class="max-w-xs text-sm leading-6 text-[#817a75]">Technologies and tools used across my work.</p>
+    </header>
 
-      <!-- Tools -->
-      <div data-aos="fade-up" data-aos-delay="300" class="spotlight bg-white/[0.02] border border-white/5 p-6 rounded-2xl hover:border-[#FF3B30]/30 transition-all duration-300">
-        <h4 class="text-white font-bold mb-4 relative z-20">Tools & Cloud</h4>
-        <div class="flex flex-wrap gap-2 relative z-20">
-          <span v-for="skill in DATA.skills.tools" :key="skill" class="bg-[#FF3B30]/10 border border-[#FF3B30]/30 text-white text-sm font-bold px-4 py-1.5 rounded-full">{{ skill }}</span>
-        </div>
-      </div>
-
-      <!-- Familiar With -->
-      <div data-aos="fade-up" data-aos-delay="400" class="spotlight bg-white/[0.02] border border-white/5 p-6 rounded-2xl hover:border-[#FF3B30]/30 transition-all duration-300">
-        <h4 class="text-white font-bold mb-4 relative z-20">Familiar With</h4>
-        <div class="flex flex-wrap gap-2 relative z-20">
-          <span v-for="skill in DATA.skills.familiarWith" :key="skill" class="bg-[#FF3B30]/10 border border-[#FF3B30]/30 text-white text-sm font-bold px-4 py-1.5 rounded-full">{{ skill }}</span>
-        </div>
-      </div>
+    <div>
+      <section v-for="group in groups" :key="group.index" data-aos="fade-up" class="grid gap-4 border-b border-white/10 py-6 sm:grid-cols-[minmax(10rem,0.7fr)_1.3fr] sm:gap-8 md:py-7">
+        <h3 class="flex items-baseline gap-3 text-sm font-medium text-[#d2cdca]">
+          <span class="text-[0.62rem] tracking-[0.12em] text-[#ff766d]">{{ group.index }}</span>
+          {{ group.label }}
+        </h3>
+        <ul class="flex flex-wrap gap-x-2 gap-y-2.5" :aria-label="group.label">
+          <li v-for="skill in group.items" :key="skill" class="border-b border-white/15 px-0.5 pb-1 text-sm leading-6 text-[#aaa5a1] transition-colors duration-200 hover:border-[#ff766d] hover:text-[#f1eeeb] motion-reduce:transition-none">
+            {{ skill }}
+          </li>
+        </ul>
+      </section>
     </div>
   </section>
 </template>
-
-<style scoped>
-.spotlight {
-  position: relative;
-}
-.spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(255, 59, 48, 0.15), transparent 40%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 10;
-}
-.spotlight:hover::before {
-  opacity: 1;
-}
-</style>

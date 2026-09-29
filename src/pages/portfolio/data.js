@@ -13,14 +13,17 @@ export const DATA = {
     twitter: "https://x.com/YukiiWEEB",
   },
   skills: {
-    frontend: ["React.js", "Vue.js", "Tailwind CSS", "HTML/CSS/JS"],
-    backend: ["Supabase", "SQL/Postgres", "API Integration"],
-    tools: ["Git & GitHub", "Figma", "AWS (Cloud Solutions Architect)"],
-    familiarWith: ["React Native", "Flutter"]
+    frontend: ["Vue.js", "React.js", "Tailwind CSS", "HTML/CSS/JavaScript"],
+    backend: ["Supabase", "PostgreSQL / SQL", "API Integration"],
+    tools: ["Git & GitHub", "Figma", "AWS"],
+    currentlyLearning: ["Django"]
   },
   projects: [
     {
       title: "Voclaria",
+      category: "AI / MOBILE",
+      coverColor: "#211d38",
+      accentColor: "#8a63e8",
       blurb: "Assisted in the development of an AI-powered mobile app for students, supporting the frontend team and backend service integrations.",
       tags: ["React Native", "Supabase", "AI"],
       image: "/Speaksy.png",
@@ -31,6 +34,9 @@ export const DATA = {
     },
     {
       title: "MarianTBI Connect",
+      category: "WEB PLATFORM",
+      coverColor: "#282126",
+      accentColor: "#bc3479",
       blurb: "An alumni engagement web platform that integrates user profiling and project management systems.",
       tags: ["Vue.js", "Supabase", "Web"],
       image: "/MarianTBI.jpg",
@@ -40,6 +46,9 @@ export const DATA = {
     },
     {
       title: "BrightMinds",
+      category: "E-LEARNING",
+      coverColor: "#1e2938",
+      accentColor: "#4a90e2",
       blurb: "A web-based e-learning system built to streamline course management and student assessments.",
       tags: ["Vue.js", "Supabase", "Web"],
       image: "/BrightMinds.svg", 
