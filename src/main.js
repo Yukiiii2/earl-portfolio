@@ -1,20 +1,11 @@
-import './index.css' // Your updated CSS import
-import 'aos/dist/aos.css'
-import AOS from 'aos'
-
+import './index.css'
 import { createApp } from 'vue'
-import Tres from '@tresjs/core'
-import router from './router' // Import the router configuration
+import router from './router'
 import App from './App.vue'
+import { createRevealDirective } from './motion/reveal.js'
 
 const app = createApp(App)
 
-app.use(Tres)
-app.use(router) // Tell the Vue app to use routing
+app.use(router)
+app.directive('reveal', createRevealDirective())
 app.mount('#app')
-
-AOS.init({
-  once: true,
-  offset: 100,
-  duration: 800,
-})

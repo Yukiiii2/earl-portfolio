@@ -8,19 +8,19 @@
       <div class="flex items-center gap-7 px-5 text-[#aaa5a1] text-[0.62rem] font-medium tracking-[0.17em] uppercase sm:gap-10 sm:px-7 sm:text-xs">
         <span>React</span><span class="text-[#FF3B30]">/</span>
         <span>Vue.js</span><span class="text-[#FF3B30]">/</span>
-        <span>Supabase</span><span class="text-[#FF3B30]">/</span>
-        <span>Tailwind CSS</span><span class="text-[#FF3B30]">/</span>
+        <span>Node.js</span><span class="text-[#FF3B30]">/</span>
+        <span>Express</span><span class="text-[#FF3B30]">/</span>
         <span>PostgreSQL</span><span class="text-[#FF3B30]">/</span>
-        <span>AWS Cloud</span><span class="text-[#FF3B30]">/</span>
+        <span>Neon</span><span class="text-[#FF3B30]">/</span>
       </div>
       <!-- Group 2 (Exact Duplicate to make the infinite loop seamless) -->
       <div class="flex items-center gap-7 px-5 text-[#aaa5a1] text-[0.62rem] font-medium tracking-[0.17em] uppercase sm:gap-10 sm:px-7 sm:text-xs" aria-hidden="true">
         <span>React</span><span class="text-[#FF3B30]">/</span>
         <span>Vue.js</span><span class="text-[#FF3B30]">/</span>
-        <span>Supabase</span><span class="text-[#FF3B30]">/</span>
-        <span>Tailwind CSS</span><span class="text-[#FF3B30]">/</span>
+        <span>Node.js</span><span class="text-[#FF3B30]">/</span>
+        <span>Express</span><span class="text-[#FF3B30]">/</span>
         <span>PostgreSQL</span><span class="text-[#FF3B30]">/</span>
-        <span>AWS Cloud</span><span class="text-[#FF3B30]">/</span>
+        <span>Neon</span><span class="text-[#FF3B30]">/</span>
       </div>
     </div>
   </div>

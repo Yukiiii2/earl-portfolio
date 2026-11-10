@@ -1,20 +1,41 @@
 <script setup>
+import { ref } from 'vue'
 import { DATA } from './portfolio/data.js'
+
+const alternateAvatarVisible = ref(false)
 </script>
 
 <template>
-  <section class="mx-auto grid max-w-6xl gap-10 px-6 pt-12 pb-16 md:grid-cols-[0.72fr_1.28fr] md:gap-16 md:pt-[4.5rem] md:pb-24">
-    <aside data-aos="fade-up" class="flex flex-col justify-between border-t border-white/15 pt-5 md:min-h-[25rem]">
+  <section class="mx-auto grid max-w-6xl gap-10 px-6 pt-14 pb-20 md:grid-cols-[0.72fr_1.28fr] md:gap-16 md:pt-24 md:pb-32">
+    <aside v-reveal="{ variant: 'left' }" class="flex flex-col justify-between border-t border-white/15 pt-5 md:min-h-[27rem]">
       <div>
-        <p class="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[#ff766d]">About / 01</p>
+        <p class="section-kicker">About / 01</p>
         <div class="mt-8 flex items-center gap-5">
-          <div class="about-avatar">
-            <img src="/dumbavatar.jpg" alt="Portrait of Earl D. Ang" />
-            <img src="/Avatar.png" alt="" class="about-avatar-hover" />
-          </div>
+          <button
+            type="button"
+            class="about-avatar"
+            aria-controls="alternate-avatar"
+            :aria-pressed="alternateAvatarVisible"
+            aria-label="Toggle Earl's alternate portrait"
+            @click="alternateAvatarVisible = !alternateAvatarVisible"
+          >
+            <img :src="'/dumbavatar.jpg'" alt="Portrait of Earl D. Ang" width="128" height="128" loading="lazy" decoding="async" />
+            <img
+              id="alternate-avatar"
+              :src="'/Avatar.png'"
+              alt=""
+              width="128"
+              height="128"
+              loading="lazy"
+              decoding="async"
+              class="about-avatar-hover"
+              :class="{ 'about-avatar-hover--visible': alternateAvatarVisible }"
+            />
+          </button>
           <div>
-            <p class="text-lg font-medium tracking-tight text-[#f1eeeb]">{{ DATA.name }}</p>
-            <p class="mt-1 text-sm text-[#aaa5a1]">Developer</p>
+            <p class="text-lg font-medium tracking-tight text-[#f1eeeb]">{{ DATA.name }} {{ DATA.lastName }}</p>
+            <p class="mt-1 text-sm text-[#aaa5a1]">Junior Developer</p>
+            <p class="mt-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-[#69635f]">Tap portrait to switch</p>
           </div>
         </div>
       </div>
@@ -30,8 +51,11 @@ import { DATA } from './portfolio/data.js'
       </dl>
     </aside>
 
-    <div data-aos="fade-up" data-aos-delay="100" class="border-t border-white/15 pt-5">
+    <div v-reveal="{ delay: 90 }" class="border-t border-white/15 pt-5">
       <h2 class="text-3xl font-medium tracking-[-0.045em] text-[#f1eeeb] sm:text-4xl">About me<span class="text-[#ff574e]">.</span></h2>
+      <p class="mt-8 max-w-xl text-xl leading-8 tracking-[-0.025em] text-[#ddd8d4] sm:text-2xl sm:leading-9">
+        I care about making useful software feel clear, responsive, and considered.
+      </p>
       <p class="mt-7 max-w-2xl text-base leading-8 text-[#aaa5a1] md:text-lg md:leading-9">
         {{ DATA.aboutFull }}
       </p>
@@ -53,6 +77,9 @@ import { DATA } from './portfolio/data.js'
   overflow: hidden;
   border: 1px solid rgba(255, 118, 109, 0.35);
   border-radius: 50%;
+  padding: 0;
+  background: #151312;
+  cursor: pointer;
 }
 
 .about-avatar img {
@@ -69,6 +96,8 @@ import { DATA } from './portfolio/data.js'
   opacity: 0;
   transition: opacity 240ms ease;
 }
+.about-avatar .about-avatar-hover--visible { opacity: 1; }
+.about-avatar:focus-visible { outline-offset: 5px; }
 
 @media (min-width: 640px) {
   .about-avatar {

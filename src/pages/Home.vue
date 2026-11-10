@@ -13,7 +13,7 @@ import { DATA } from './portfolio/data.js'
   <div>
     <header id="top" class="hero-section">
       <div class="hero-copy">
-        <p class="hero-eyebrow" data-aos="fade-up" data-aos-duration="650">
+        <p class="hero-eyebrow">
           <span class="location-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.2"/></svg>
           </span>
@@ -21,30 +21,34 @@ import { DATA } from './portfolio/data.js'
           <span class="availability-dot" aria-hidden="true"></span> Open to Work
         </p>
 
-        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="70" data-aos-duration="700">
+        <h1 class="hero-title">
           <span>Meet</span>
           <span class="hero-title-name">Earl Ang<span class="hero-period">.</span></span>
         </h1>
 
-        <p class="hero-intro" data-aos="fade-up" data-aos-delay="130" data-aos-duration="700">
+        <p class="hero-intro">
           {{ DATA.heroShort }}
         </p>
 
-        <div class="hero-actions" data-aos="fade-up" data-aos-delay="190" data-aos-duration="700">
-          <a href="#contact" class="button-primary">
-            Email Me
+        <div class="hero-actions">
+          <a href="#projects" class="button-primary">
+            View selected work
             <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M10 5l5 5-5 5"/></svg>
           </a>
-          <a href="/Earl_Ang_Resume.pdf" download="Earl_Ang_Resume.pdf" target="_blank" rel="noreferrer" class="button-secondary">
-            Download Resume
-            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5v1h12v-1"/></svg>
+          <a href="#contact" class="button-secondary">
+            Start a conversation
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M4 10h11M10 5l5 5-5 5"/></svg>
           </a>
         </div>
+
+        <a href="/Earl_Ang_Resume.pdf" download="Earl_Ang_Resume.pdf" class="resume-link">
+          Download résumé <span aria-hidden="true">↓</span>
+        </a>
 
         <p class="hero-index" aria-hidden="true"><span>00</span> — DEVELOPER PORTFOLIO</p>
       </div>
 
-      <div class="hero-art" data-aos="fade-in" data-aos-delay="100" data-aos-duration="800">
+      <div class="hero-art">
         <div class="art-halo" aria-hidden="true"></div>
         <div class="art-ring art-ring--outer" aria-hidden="true"></div>
         <div class="art-ring art-ring--inner" aria-hidden="true"></div>
@@ -104,8 +108,8 @@ import { DATA } from './portfolio/data.js'
   line-height: 0.88;
   letter-spacing: -0.078em;
 }
-.hero-title > span:first-child { color: #c8c2bd; font-size: 0.68em; font-weight: 450; letter-spacing: -0.065em; }
-.hero-title-name { margin-top: 0.11em; white-space: nowrap; }
+.hero-title > span:first-child { color: #c8c2bd; font-size: 0.46em; font-weight: 500; letter-spacing: -0.04em; }
+.hero-title-name { max-width: 9ch; margin-top: 0.18em; font-size: .92em; text-wrap: balance; }
 .hero-period { color: #ff574e; }
 
 .hero-intro {
@@ -128,11 +132,15 @@ import { DATA } from './portfolio/data.js'
   font-weight: 650;
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-.button-primary { min-width: 9.25rem; background: #ee5149; color: #fff; }
-.button-primary:hover { transform: translateY(-2px); background: #ff6359; }
+.button-primary { min-width: 11.5rem; background: #c23d36; color: #fff; }
+.button-primary:hover { transform: translateY(-2px); background: #ad332e; }
 .button-secondary { border: 1px solid rgba(255,255,255,.17); color: #e9e5e1; }
 .button-secondary:hover { transform: translateY(-2px); border-color: rgba(255,255,255,.38); background: rgba(255,255,255,.045); }
-.button-primary svg, .button-secondary svg { width: 1rem; height: 1rem; stroke: currentColor; stroke-width: 1.5; }
+.button-primary svg, .button-secondary svg { width: 1rem; height: 1rem; stroke: currentColor; stroke-width: 1.5; transition:transform 180ms ease; }
+.button-primary:hover svg, .button-secondary:hover svg { transform:translateX(.2rem); }
+.button-primary:active, .button-secondary:active { transform:translateY(0); }
+.resume-link { min-height: 2.75rem; display: inline-flex; align-items: center; gap: .55rem; margin-top: .65rem; color: #aaa39d; font-size: .76rem; text-decoration: underline; text-decoration-color: rgba(255,255,255,.25); transition: color 180ms ease; }
+.resume-link:hover { color: #f3f0ec; }
 .hero-index { margin: clamp(3rem, 7vh, 5rem) 0 0; color: #716b67; font-size: 0.62rem; letter-spacing: 0.12em; }
 .hero-index span { color: #e06b63; }
 
@@ -143,6 +151,27 @@ import { DATA } from './portfolio/data.js'
 .art-ring--outer { inset: 6%; }
 .art-ring--inner { inset: 16%; transform: rotate(32deg) scaleY(.86); border-color: rgba(255,112,102,.13); }
 .art-caption { position: absolute; right: 4%; bottom: 8%; left: 4%; z-index: 3; display: flex; justify-content: space-between; color: #77706b; font-size: 0.58rem; letter-spacing: 0.15em; }
+
+.hero-eyebrow,
+.hero-title,
+.hero-intro,
+.hero-actions,
+.resume-link,
+.hero-index,
+.hero-art {
+  animation: hero-enter 760ms cubic-bezier(.2,.78,.2,1) backwards;
+}
+.hero-title { animation-delay: 70ms; }
+.hero-intro { animation-delay: 140ms; }
+.hero-actions { animation-delay: 210ms; }
+.resume-link { animation-delay: 270ms; }
+.hero-index { animation-delay: 320ms; }
+.hero-art { animation-delay: 120ms; animation-duration: 920ms; }
+
+@keyframes hero-enter {
+  from { opacity: 0; transform: translate3d(0, 1rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
 
 @media (max-width: 1023px) {
   .hero-section { width: min(100% - 3rem, 70rem); grid-template-columns: minmax(0, 1fr) minmax(17rem, .86fr); gap: 0; }
@@ -161,26 +190,30 @@ import { DATA } from './portfolio/data.js'
   .hero-copy { padding-top: 0; }
   .hero-eyebrow { gap: 0.45rem; margin-bottom: 1.75rem; font-size: 0.61rem; letter-spacing: 0.08em; }
   .hero-title { font-size: clamp(4.1rem, 17vw, 6.3rem); }
-  .hero-title-name { font-size: 0.92em; }
+  .hero-title-name { font-size: 0.9em; }
   .hero-intro { max-width: 29rem; margin-top: 1.5rem; font-size: 1rem; line-height: 1.7; }
   .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 1.6rem; }
-  .button-primary, .button-secondary { min-width: 0; min-height: 3.2rem; gap: 0.55rem; padding: 0 0.7rem; font-size: 0.73rem; }
-  .button-primary { justify-content: space-around; }
-  .button-secondary { justify-content: space-around; }
+  .button-primary, .button-secondary { min-width: 0; min-height: 3.25rem; gap: 0.55rem; padding: 0 0.8rem; font-size: 0.78rem; }
+  .button-primary, .button-secondary { justify-content: space-between; }
   .hero-index { margin-top: 2rem; }
-  .hero-art { width: min(112%, 27rem); margin: -0.4rem auto -1.5rem; justify-self: center; }
-  .art-caption { bottom: 7%; }
+  .hero-art { width: min(100%, 27rem); margin: -0.2rem auto -1rem; justify-self: center; }
+  .art-caption { right: 0; bottom: 7%; left: 0; }
 }
 
 @media (max-width: 380px) {
   .hero-section { width: calc(100% - 2rem); }
   .hero-title { font-size: clamp(3.7rem, 16.7vw, 4.15rem); }
-  .hero-eyebrow { font-size: 0.56rem; }
-  .button-primary, .button-secondary { font-size: 0.68rem; padding-inline: 0.45rem; }
-  .hero-art { width: 108%; }
+  .hero-eyebrow { font-size: 0.6rem; }
+  .button-primary, .button-secondary { font-size: 0.75rem; padding-inline: 0.65rem; }
+  .hero-art { width: 100%; }
+}
+
+@media (max-width: 400px) {
+  .hero-actions { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .button-primary, .button-secondary { transition-duration: 0.01ms !important; }
+  .hero-eyebrow, .hero-title, .hero-intro, .hero-actions, .resume-link, .hero-index, .hero-art { animation: none; }
+  .button-primary, .button-secondary, .button-primary svg, .button-secondary svg, .resume-link { transition-duration: 0.01ms !important; }
 }
 </style>

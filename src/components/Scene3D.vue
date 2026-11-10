@@ -1,9 +1,12 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import * as THREE from 'three'
+import { shouldUseStaticScene } from './scene-strategy.js'
 
 const sceneRoot = ref(null)
+const renderState = ref('loading')
+const STATIC_SCENE = '/hero-sculpture-still.webp'
 
+let THREE = null
 let scene = null
 let camera = null
 let renderer = null
@@ -22,9 +25,9 @@ let pointerY = 0
 
 const rotationSpeed = { x: 0.025, y: 0.16, z: 0.008 }
 
-const makeMobiusGeometry = () => {
-  const segments = 144
-  const across = 20
+const makeMobiusGeometry = (compact = false) => {
+  const segments = compact ? 96 : 144
+  const across = compact ? 14 : 20
   const radius = 1.28
   const halfWidth = 0.37
   const positions = []
@@ -133,9 +136,27 @@ const handleMotionPreferenceChange = () => {
   renderScene()
 }
 
-onMounted(() => {
+onMounted(async () => {
   const root = sceneRoot.value
   if (!root) return
+
+  motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  reducedMotion = motionQuery.matches
+  const useStaticScene = shouldUseStaticScene({
+    viewportWidth: window.innerWidth,
+    reducedMotion,
+    saveData: Boolean(navigator.connection?.saveData),
+    hardwareConcurrency: navigator.hardwareConcurrency,
+    deviceMemory: navigator.deviceMemory,
+  })
+
+  if (useStaticScene) {
+    renderState.value = 'static'
+    return
+  }
+
+  THREE = await import('three')
+  if (disposed || !sceneRoot.value) return
 
   const width = Math.max(root.clientWidth, 1)
   const height = Math.max(root.clientHeight, 1)
@@ -146,6 +167,7 @@ onMounted(() => {
   try {
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' })
   } catch (error) {
+    renderState.value = 'fallback'
     console.error('Unable to initialize the hero WebGL renderer.', error)
     return
   }
@@ -153,32 +175,37 @@ onMounted(() => {
   renderer.setClearColor(0x000000, 0)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
   renderer.setSize(width, height, false)
-  renderer.toneMapping = THREE.ReinhardToneMapping
+  renderer.outputColorSpace = THREE.SRGBColorSpace
+  renderer.toneMapping = THREE.ACESFilmicToneMapping
+  renderer.toneMappingExposure = 1.05
   renderer.domElement.className = 'scene-canvas'
   renderer.domElement.setAttribute('aria-hidden', 'true')
   root.appendChild(renderer.domElement)
 
-  scene.add(new THREE.AmbientLight(0xffffff, 1.15))
-  const keyLight = new THREE.DirectionalLight(0xfff0e8, 3.2)
+  scene.add(new THREE.HemisphereLight(0xfff6f0, 0x2b0d0b, 1.7))
+  const keyLight = new THREE.DirectionalLight(0xfff0e8, 4.2)
   keyLight.position.set(4, 5, 6)
   scene.add(keyLight)
-  const coralLight = new THREE.PointLight(0xff5148, 18)
+  const coralLight = new THREE.PointLight(0xff5148, 26)
   coralLight.position.set(-4, -2, 3)
   scene.add(coralLight)
+  const rimLight = new THREE.DirectionalLight(0x8a3230, 2.3)
+  rimLight.position.set(-3, 1, -5)
+  scene.add(rimLight)
 
-  geometry = makeMobiusGeometry()
-  material = new THREE.MeshStandardMaterial({
-    color: '#dd5149',
-    metalness: 0.18,
-    roughness: 0.6,
+  geometry = makeMobiusGeometry(width < 480)
+  material = new THREE.MeshPhysicalMaterial({
+    color: '#d94b43',
+    metalness: 0.28,
+    roughness: 0.48,
+    clearcoat: 0.28,
+    clearcoatRoughness: 0.7,
     side: THREE.DoubleSide,
   })
   mobius = new THREE.Mesh(geometry, material)
   mobius.rotation.set(0.18, -0.25, -0.3)
   scene.add(mobius)
 
-  motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-  reducedMotion = motionQuery.matches
   motionQuery.addEventListener?.('change', handleMotionPreferenceChange)
   window.addEventListener('resize', handleResize, { passive: true })
   document.addEventListener('visibilitychange', handleVisibilityChange)
@@ -186,6 +213,7 @@ onMounted(() => {
   root.addEventListener('pointerleave', handlePointerLeave)
 
   renderScene()
+  renderState.value = 'ready'
   startAnimation()
 })
 
@@ -215,10 +243,41 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="sceneRoot" class="scene-wrap" aria-hidden="true"></div>
+  <div
+    ref="sceneRoot"
+    class="scene-wrap"
+    :class="`scene-wrap--${renderState}`"
+    :data-render-state="renderState"
+    role="img"
+    :aria-label="renderState === 'ready' ? 'Rotating abstract Möbius sculpture in warm red' : 'Abstract Möbius sculpture in warm red'"
+  >
+    <img
+      v-if="renderState !== 'ready'"
+      class="scene-still"
+      :src="STATIC_SCENE"
+      alt=""
+      width="568"
+      height="568"
+      decoding="async"
+      fetchpriority="high"
+    >
+  </div>
 </template>
 
 <style scoped>
-.scene-wrap { width: 100%; height: 100%; touch-action: pan-y; }
+.scene-wrap { position: relative; width: 100%; height: 100%; contain: layout paint; touch-action: pan-y; }
 .scene-canvas { display: block; width: 100%; height: 100%; pointer-events: none; }
+.scene-still { position: absolute; inset: 6%; width: 88%; height: 88%; display: block; object-fit: contain; filter: drop-shadow(0 1.5rem 3rem rgba(191,48,42,.2)); }
+.scene-wrap--static .scene-still,
+.scene-wrap--fallback .scene-still { animation: scene-still-enter 820ms cubic-bezier(.2,.78,.2,1) both; }
+
+@keyframes scene-still-enter {
+  from { opacity: 0; transform: translate3d(0, .75rem, 0) scale(.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-wrap--static .scene-still,
+  .scene-wrap--fallback .scene-still { animation: none; }
+}
 </style>

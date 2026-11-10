@@ -3,15 +3,15 @@ import { DATA } from './portfolio/data.js'
 
 const groups = [
   { label: 'Primary Frontend', index: '01', items: DATA.skills.frontend },
-  { label: 'Backend & Database', index: '02', items: DATA.skills.backend },
-  { label: 'Tools & Cloud', index: '03', items: DATA.skills.tools },
-  { label: 'Currently Learning', index: '04', items: DATA.skills.currentlyLearning },
+  { label: 'Backend & Database', index: '02', items: DATA.skills.fullstack },
+  { label: 'Mobile & Interface', index: '03', items: DATA.skills.mobile },
+  { label: 'Tools & Delivery', index: '04', items: DATA.skills.tools },
 ]
 </script>
 
 <template>
   <section class="mx-auto max-w-6xl px-6 py-16 md:py-24">
-    <header data-aos="fade-up" class="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-5">
+    <header v-reveal class="mb-9 flex flex-wrap items-end justify-between gap-4 border-b border-white/15 pb-5">
       <div>
         <p class="mb-3 text-[0.65rem] font-medium uppercase tracking-[0.2em] text-[#ff766d]">Toolkit / 02</p>
         <h2 class="text-3xl font-medium tracking-[-0.045em] text-[#f1eeeb] sm:text-4xl">Tech stack<span class="text-[#ff574e]">.</span></h2>
@@ -20,7 +20,7 @@ const groups = [
     </header>
 
     <div>
-      <section v-for="group in groups" :key="group.index" data-aos="fade-up" class="grid gap-4 border-b border-white/10 py-6 sm:grid-cols-[minmax(10rem,0.7fr)_1.3fr] sm:gap-8 md:py-7">
+      <section v-for="(group, groupIndex) in groups" :key="group.index" v-reveal="{ delay: groupIndex * 55 }" class="grid gap-4 border-b border-white/10 py-6 sm:grid-cols-[minmax(10rem,0.7fr)_1.3fr] sm:gap-8 md:py-7">
         <h3 class="flex items-baseline gap-3 text-sm font-medium text-[#d2cdca]">
           <span class="text-[0.62rem] tracking-[0.12em] text-[#ff766d]">{{ group.index }}</span>
           {{ group.label }}
